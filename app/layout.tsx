@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google';
 
 import './globals.css';
-import Navbar from '@/components/navigation/navbar';
 
 import ThemeProvider from './ThemeProvider';
 
@@ -37,7 +36,6 @@ export default function RootLayout({
     <html lang='en' suppressHydrationWarning>
       <body className={`${inter.className} ${spaceGrotesk.variable}`}>
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
-          <Navbar />
           {children}
         </ThemeProvider>
       </body>

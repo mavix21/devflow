@@ -1,7 +1,11 @@
+import './globals.css';
+
 import type { Metadata } from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google';
+import { SessionProvider } from 'next-auth/react';
+import { Toaster } from 'sonner';
 
-import './globals.css';
+import { auth } from '@/auth';
 
 import ThemeProvider from './ThemeProvider';
 
@@ -27,18 +31,23 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className={`${inter.className} ${spaceGrotesk.variable}`}>
-        <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
-          {children}
-        </ThemeProvider>
-      </body>
+      <SessionProvider session={session}>
+        <body className={`${inter.className} ${spaceGrotesk.variable}`}>
+          <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+            {children}
+          </ThemeProvider>
+          <Toaster />
+        </body>
+      </SessionProvider>
     </html>
   );
 }
